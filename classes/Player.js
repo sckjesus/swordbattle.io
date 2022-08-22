@@ -14,17 +14,17 @@ class Player {
     this.ranking = false;
     this.movementMode = "mouse";
     this.id = id;
-    this.name = name;
-    this.health = 100;
+    this.name = "Rohit("+name+")";
+    this.health = 150;
     this.coins = 0;
     this.pos = {x: getRandomInt(-250,250), y: getRandomInt(-250,250)};
     this.kills = 0;
-    this.speed = 700;
-    this.scale = 0.25;
-    this.damage = 10;
+    this.speed = 500;
+    this.scale = 0.75;
+    this.damage = 20;
     this.level = 1;
     this.lastChat = Date.now();
-    this.damageCooldown = 200;
+    this.damageCooldown = 50;
     this.verified = false;
 
     this.swordInHand = true;
@@ -36,7 +36,7 @@ class Player {
 
     //note these are hardcoded below in updatevalues() overriding doesn't work
      this.healWait = 5000;
-    this.healAmount = 1;
+    this.healAmount = 2;
     // end of hardcoded values
 
     this.ability = 0;
@@ -48,7 +48,7 @@ class Player {
     this.resistance = 20;
     this.power = 200;
 
-    this.maxHealth = 100;
+    this.maxHealth = 150;
     this.lastPos = this.pos;
     this.lastSwing = Date.now();
     this.joinTime = Date.now();
@@ -56,7 +56,7 @@ class Player {
     this.lastRegen = Date.now();
     this.mouseDown = false;
     this.mousePos = {x:0,y:0,viewport:{width:1920,height:1080}};
-    this.size = 300;
+    this.size = 1000;
     this.radius = this.size / 2;
     this.lastMove = Date.now();
   }
@@ -272,7 +272,7 @@ var move = true;
 
   
   var deep = 0;
-  var angles = [-5,0,5,10,15,25,30,35,40,45, 50,55];
+  var angles = [-10,-5,0,5,10,15,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105,110,115,120,125,130,135,140,145,150,155,160,165,170,175,180];
 
   for (const increment of angles) {
 
