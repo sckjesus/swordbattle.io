@@ -20,7 +20,7 @@ class Player {
     this.pos = {x: getRandomInt(-250,250), y: getRandomInt(-250,250)};
     this.kills = 0;
     this.speed = 500;
-    this.scale = 0.75;
+    this.scale = 0.25;
     this.damage = 20;
     this.level = 1;
     this.lastChat = Date.now();
@@ -56,7 +56,7 @@ class Player {
     this.lastRegen = Date.now();
     this.mouseDown = false;
     this.mousePos = {x:0,y:0,viewport:{width:1920,height:1080}};
-    this.size = 1000;
+    this.size = 300;
     this.radius = this.size / 2;
     this.lastMove = Date.now();
   }
