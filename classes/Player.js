@@ -14,7 +14,7 @@ class Player {
     this.ranking = false;
     this.movementMode = "mouse";
     this.id = id;
-    this.name = "Rohit("+name+")";
+    this.name = name;
     this.health = 150;
     this.coins = 0;
     this.pos = {x: getRandomInt(-250,250), y: getRandomInt(-250,250)};
@@ -226,6 +226,7 @@ var move = true;
       this.pos = oldPos;
     }
   }
+  
   collectCoins(coins, io, levels) {
     
 

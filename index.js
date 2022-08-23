@@ -119,8 +119,45 @@ if (production) {
 	});
 	app.use(limiter);
 }
-
 var oldlevels = [
+	{coins: 5, scale: 0.28},
+	{coins: 15, scale: 0.32},
+	{coins: 25, scale: 0.35},
+	{coins: 35, scale: 0.4},
+	{coins: 50, scale: 0.45},
+	{coins: 75, scale: 0.47},
+	{coins: 100, scale: 0.5},
+	{coins: 200, scale: 0.7},
+	{coins: 350, scale: 0.8},
+	{coins: 500, scale: 0.85},
+	{coins: 600, scale: 0.87},
+	{coins: 750, scale: 0.89},
+	{coins: 900, scale: 0.9},
+	{coins: 1000, scale: 0.95},
+	{coins: 1100, scale: 0.97},
+	{coins: 1250, scale: 0.99},
+	{coins: 1500, scale: 1},
+	{coins: 2000, scale: 1.04},
+	{coins: 2250, scale: 1.06},
+	{coins: 2500, scale: 1.07},
+	{coins: 2750, scale: 1.1},
+	{coins: 3000, scale: 1.15},
+  {coins: 4000, scale: 1.17},
+	{coins: 5000, scale: 1.2, evolutions: [evolutions.tank, evolutions.berserker]}
+	// {coins: 7500, scale: 1.3},
+	// {coins: 9000, scale: 1.5},
+	// {coins: 10000, scale: 1.53},
+  // {coins: 15000, scale: 1.55},
+  // {coins: 20000, scale: 1.56},
+  // {coins: 25000, scale: 1.57},
+  // {coins: 30000, scale: 1.58},
+  // {coins: 40000, scale: 1.59},
+  // {coins: 50000, scale: 1.62},
+  // {coins: 60000, scale: 1.63},
+  // {coins: 100000, scale: 1.7},
+  // {coins: 200000, scale: 1.8}
+];
+var biglevels = [
 	{coins: 1, scale: 0.28},
 	{coins: 3, scale: 0.32},
 	{coins: 5, scale: 0.35},
@@ -144,7 +181,7 @@ var oldlevels = [
 	{coins: 78, scale: 1.1},
 	{coins: 86, scale: 1.15},
   {coins: 94, scale: 1.17},
-	{coins: 102, scale: 1.2, evolutions: [evolutions.tank, evolutions.berserker]},
+	{coins: 102, scale: 1.2,},
 	{coins: 110, scale: 1.3},
 	{coins: 118, scale: 1.5},
 	{coins: 126, scale: 1.53},
@@ -156,9 +193,10 @@ var oldlevels = [
   {coins: 174, scale: 1.62},
   {coins: 182, scale: 1.63},
   {coins: 190, scale: 1.7},
-  {coins: 198, scale: 1.8},
+  {coins: 198, scale: 1.8, evolutions: [evolutions.tank, evolutions.berserker]}
 ];
 console.log(Object.keys(oldlevels).length);
+console.log(Object.keys(biglevels).length);
 app.set("trust proxy", true);
 /*
 app.use((req, res, next) => {
@@ -185,13 +223,23 @@ app.all("*", (req, res, next) => {
 
 });
 
-var levels = [];
-oldlevels.forEach((level, index)  =>{
+var blevels = [];
+biglevels.forEach((level, index)  =>{
 	if(index == 0) {
-		levels.push(Object.assign({start: 0},level)); 
+		blevels.push(Object.assign({start: 0},level)); 
 	}
 	else {
-		levels.push(Object.assign({start: levels[index - 1].coins}, level));
+		blevels.push(Object.assign({start: blevels[index - 1].coins}, level));
+	}
+});
+// qwerty        
+var alevels = [];
+oldlevels.forEach((level, index)  =>{
+	if(index == 0) {
+		alevels.push(Object.assign({start: 0},level)); 
+	}
+	else {
+		alevels.push(Object.assign({start: alevels[index - 1].coins}, level));
 	}
 });
 
@@ -788,7 +836,9 @@ io.on("connection", async (socket) => {
 				socket.emit("chests", chests);
 
 				socket.joined = true;
-        socket.emit("levels", levels);
+// qwerty        
+        socket.emit("levels", blevels);
+        socket.emit("alevels", alevels);
 
 		}
 		if (!captchatoken && recaptcha) {
@@ -916,7 +966,7 @@ io.on("connection", async (socket) => {
 			if (PlayerList.has(socket.id)) {
 				var player = PlayerList.getPlayer(socket.id);
 				player.move(controller);
-				coins = player.collectCoins(coins, io, levels);
+				coins = player.collectCoins(coins, io, blevels);
 			}
 		} catch (e) {
 			console.log(e);
@@ -1117,7 +1167,7 @@ setInterval(async () => {
       player.updateValues();
 			//   player.moveWithMouse(players)
 			if(player.ai) {
-				[coins,chests] = player.tick(coins, io, levels, chests);
+				[coins,chests] = player.tick(coins, io, alevels, chests);
 			}
 			if (
 				Date.now() - player.lastHit > player.healWait &&

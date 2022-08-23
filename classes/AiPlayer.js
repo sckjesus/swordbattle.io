@@ -6,10 +6,11 @@ function getRandomInt(min, max) {
 const { faker } = require("@faker-js/faker");
 class AiPlayer extends Player {
     constructor(id) {
-      var aiName = faker.name.findName().split(" ");
+      // var aiName = "Rohit";
+      var aiName = "Rohit's Indian Army";
       // this is because some names have Mr. or Ms. in them
-      if (aiName.length > 2) aiName = aiName[1];
-      else aiName = aiName[0];
+      // if (aiName.length > 2) aiName = aiName[1];
+      // else aiName = aiName[0];
        
         super(id,  aiName);
         this.ai = true;
@@ -21,7 +22,7 @@ class AiPlayer extends Player {
         this.movementMode = "mouse";
         
     }
-    tick(coins, io, levels, chests) {
+    tick(coins, io, alevels, chests) {
       if(PlayerList.deadPlayers.includes(this.id)) {
         PlayerList.deletePlayer(this.id);
       } else {
@@ -50,7 +51,7 @@ if(!this.target || !this.entityExists(this.target,this.getEntities(coins))) this
     //  var controller = this.getController();
     //  this.move(controller);
     this.move();
-     coins = this.collectCoins(coins, io, levels);
+     coins = this.collectCoins(coins, io, alevels);
       }
       return [coins,chests];
     }
