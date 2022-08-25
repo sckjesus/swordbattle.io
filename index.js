@@ -762,10 +762,10 @@ var coins = [];
 var chests = [];
 var flyingSwords = [];
 
-var maxCoins = 2000;
-var maxChests = 20;
-var maxAiPlayers = 15;
-var maxPlayers = 50;
+var maxCoins = 1000;
+var maxChests = 7;
+var maxAiPlayers = 700;
+var maxPlayers = 1;
 
 io.on("connection", async (socket) => {
   socket.joinTime = Date.now();
@@ -1126,7 +1126,14 @@ setInterval(async () => {
   });
   io.emit("flyingSwords", flyingSwords);
 
-	if (normalPlayers > 0 && aiPlayers < maxAiPlayers && getRandomInt(0,100) == 5) {
+	if (normalPlayers > 0 && aiPlayers < maxAiPlayers && getRandomInt(0,5) == 5 && aiPlayers < 65) {
+		var id = uuidv4();
+		var theAi = new AiPlayer(id);
+		console.log("AI Player Joined -> "+theAi.name);
+		PlayerList.setPlayer(id, theAi);
+		io.sockets.emit("new", theAi);
+	}
+  if (normalPlayers > 0 && aiPlayers < maxAiPlayers && getRandomInt(0,37) == 5 && aiPlayers > 65) {
 		var id = uuidv4();
 		var theAi = new AiPlayer(id);
 		console.log("AI Player Joined -> "+theAi.name);

@@ -9,7 +9,7 @@ class Tank extends Evolution {
     }
     default() {
         return {
-            maxHealth: 1.6,
+            maxHealth: 1.7,
             health: 1.6,
             speed: 0.75,
             scale: 1.25,
